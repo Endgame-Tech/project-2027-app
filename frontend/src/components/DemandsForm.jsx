@@ -1,15 +1,17 @@
 import { useState } from "react";
-import Demographics from "./stages/Demographics";
-import KeyIssues from "./stages/KeyIssues";
-import InfrastructureNeeds from "./stages/InfrastructureNeeds";
-import GovernmentAssistance from "./stages/GovernmentAssistance";
-import ElectoralEngagement from "./stages/ElectoralEngagement";
-import SubmitAndPrivacy from "./stages/SubmitAndPrivacy";
-import DemandSummary from "./stages/DemandSummary";
+import Demographics from "./stages/demand-stages/Demographics";
+import KeyIssues from "./stages/demand-stages/KeyIssues";
+import InfrastructureNeeds from "./stages/demand-stages/InfrastructureNeeds";
+import GovernmentAssistance from "./stages/demand-stages/GovernmentAssistance";
+import ElectoralEngagement from "./stages/demand-stages/ElectoralEngagement";
+import SubmitAndPrivacy from "./stages/demand-stages/SubmitAndPrivacy";
+import DemandSummary from "./stages/demand-stages/DemandSummary";
 
 const DemandsForm = ({ closeModal }) => {
   const [stage, setStage] = useState(1);
   const [demandData, setDemandData] = useState({});
+
+  const totalStages = 6;
 
   const handleNext = (data) => {
     setDemandData({ ...demandData, ...data });

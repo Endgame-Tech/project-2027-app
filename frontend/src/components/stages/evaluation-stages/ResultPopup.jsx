@@ -4,7 +4,6 @@ import domtoimage from "dom-to-image";
 
 const ResultPopup = ({ evaluationData, closeModal }) => {
   const resultRef = useRef(null);
-  
 
   // ✅ Compute percentage scores
   const capacityPercent = ((evaluationData.capacityScore / 30) * 100).toFixed(1);
@@ -76,11 +75,23 @@ const ResultPopup = ({ evaluationData, closeModal }) => {
   // ✅ Handle Image Download
   const handleDownload = () => {
     if (resultRef.current) {
-      domtoimage.toJpeg(resultRef.current, { quality: 1, bgcolor: "#ffffff" })
+      const scale = 3;
+      domtoimage.toPng(resultRef.current, {
+        quality: 1,
+        bgcolor: "#ffffff",
+        width: resultRef.current.clientWidth * scale,
+        height: resultRef.current.clientHeight * scale,
+        style: {
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+          width: `${resultRef.current.clientWidth}px`,
+          height: `${resultRef.current.clientHeight}px`
+        }
+      })
         .then((dataUrl) => {
           const link = document.createElement("a");
           link.href = dataUrl;
-          link.download = `Evaluation Result - ${candidateName}.jpg`;
+          link.download = `Evaluation Result - ${candidateName}.png`;
           link.click();
         })
         .catch((error) => console.error("Error generating image:", error));

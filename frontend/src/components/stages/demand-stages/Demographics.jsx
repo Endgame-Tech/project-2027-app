@@ -1,5 +1,5 @@
 import { useState } from "react";
-import statesAndLGAs from "../../lib/statesAndLGAs.js"; // JSON for Nigerian States
+import statesAndLGAs from "../../../lib/statesAndLGAs.js"; // JSON for Nigerian States
 
 const Demographics = ({ onNext }) => {
   const [formData, setFormData] = useState({

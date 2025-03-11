@@ -1,8 +1,8 @@
 import { useState } from "react";
-import evaluationQuestions from "../../lib/evaluationQuestions.js"; // Import JSON file
+import evaluationQuestions from "../../../lib/evaluationQuestions.js"; // Import JSON file
 
-const CapacitySection = ({ onNext }) => {
-  const { sections } = evaluationQuestions.capacity; // Get capacity questions
+const CharacterSection = ({ onNext }) => {
+  const { sections } = evaluationQuestions.character; // Get character questions
   const [scores, setScores] = useState({});
   const [error, setError] = useState(""); // Error message for missing answers
 
@@ -34,18 +34,19 @@ const CapacitySection = ({ onNext }) => {
     }
 
     setError(""); // Clear error if all are answered
-    const totalCapacityScore = parseFloat(calculateScore().toFixed(2));
-    onNext({ capacityScore: totalCapacityScore });
+    const totalCharacterScore = parseFloat(calculateScore().toFixed(2));
+    onNext({ characterScore: totalCharacterScore });
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-4">{evaluationQuestions.capacity.title}</h2>
+      <h2 className="text-2xl font-bold mb-4">{evaluationQuestions.character.title}</h2>
 
       {/* SCROLLABLE CONTAINER */}
       <div className="max-h-[60vh] overflow-y-auto p-2">
         {sections.map((section) => (
           <div key={section.subgroup} className="mb-6">
+            {/* <h3 className="text-lg font-semibold">{section.subgroup} ({section.weight} points)</h3> */}
             {section.questions.map((q) => (
               <div key={q.text} className="mb-4">
                 <label className="block text-gray-700 font-bold">{q.text}</label>
@@ -73,10 +74,10 @@ const CapacitySection = ({ onNext }) => {
       {error && <p className="text-red-600 text-sm font-semibold">{error}</p>}
 
       <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded w-full mt-4">
-        Next
+        See Results
       </button>
     </form>
   );
 };
 
-export default CapacitySection;
+export default CharacterSection;

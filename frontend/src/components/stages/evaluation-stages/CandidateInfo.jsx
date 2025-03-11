@@ -1,5 +1,5 @@
 import { useState } from "react";
-import statesAndLGAs from "../../lib/statesAndLGAs.js";
+import statesAndLGAs from "../../../lib/statesAndLGAs.js";
 
 const CandidateInfo = ({ onNext }) => {
   const [formData, setFormData] = useState({

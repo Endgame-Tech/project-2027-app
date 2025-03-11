@@ -1,5 +1,5 @@
 import { useState } from "react";
-import evaluationQuestions from "../../lib/evaluationQuestions.js"; // Import JSON file
+import evaluationQuestions from "../../../lib/evaluationQuestions.js"; // Import JSON file
 
 const CompetenceSection = ({ onNext }) => {
   const { sections } = evaluationQuestions.competence; // Get competence questions
