@@ -13,9 +13,9 @@ const DemandsPage = () => {
 
       {/* Landing Page */}
       <div className="flex flex-col w-full items-center justify-center min-h-[94vh] py-[150px] text-white bg-black p-4">
-        <h1 className="text-[50px] font-[600] text-center mb-2">
+        <h3 className="text-[40px] md:text-[50px] font-[600] text-center mb-2">
           Citizens' Demand Collation Tool
-        </h1>
+        </h3>
         <p className="text-[18px] py-2 w-[320px] md:w-[520px] text-center mb-4">
           Submit your key demands, policy priorities, and expectations from the government.
           Click below to state your demand.
@@ -30,7 +30,7 @@ const DemandsPage = () => {
 
       {/* Modal for Demands Form */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/75">
           <div className="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsModalOpen(false)}

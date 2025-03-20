@@ -1,15 +1,22 @@
 import { useState } from "react";
-import statesAndLGAs from "../lib/statesAndLGAs.js";
+import statesLGAsAndWards from "../lib/statesLGAsAndWards.js"; // Ensure correct path
 import axios from "axios";
 
 const PetitionForm = ({ setPetitionData, setShowPreview }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [sex, setSex] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [ageRange, setAgeRange] = useState("");
+  const [isVoter, setIsVoter] = useState("");
+  const [wantsPVC, setWantsPVC] = useState("");
   const [state, setState] = useState("");
   const [lga, setLga] = useState("");
+  const [ward, setWard] = useState("");
   const [lgas, setLgas] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [wantsToVolunteer, setWantsToVolunteer] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,26 +25,66 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
     setState(selectedState);
-    setLgas(statesAndLGAs[selectedState] || []);
-    setLga("");
+    if (selectedState && statesLGAsAndWards[selectedState]) {
+      setLgas(Object.keys(statesLGAsAndWards[selectedState].lgas));
+    } else {
+      setLgas([]);
+    }
+    setLga(""); // Reset LGA when state changes
+    setWards([]); // Reset wards when state changes
+    setWard(""); // Reset ward when state changes
+  };
+
+  const handleLGAChange = (e) => {
+    const selectedLGA = e.target.value;
+    setLga(selectedLGA);
+    if (state && selectedLGA && statesLGAsAndWards[state].lgas[selectedLGA]) {
+      setWards(statesLGAsAndWards[state].lgas[selectedLGA].wards);
+    } else {
+      setWards([]);
+    }
+    setWard(""); // Reset ward when LGA changes
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!firstName || !lastName || !email || !phone || !state || !lga) {
-      setError("Please enter all required fields.");
+    if (
+      !fullName ||
+      !phone ||
+      !email ||
+      !sex ||
+      !occupation ||
+      !ageRange ||
+      !isVoter ||
+      !state ||
+      !lga ||
+      !ward ||
+      !wantsToVolunteer
+    ) {
+      setError("Please fill in all required fields.");
       return;
     }
 
     setLoading(true);
     setError("");
 
-    const petitionData = { firstName, lastName, email, phone, state, lga };
+    const petitionData = {
+      fullName,
+      phone,
+      email,
+      sex,
+      occupation,
+      ageRange,
+      isVoter,
+      wantsPVC,
+      state,
+      lga,
+      ward,
+      wantsToVolunteer,
+    };
 
     try {
       const response = await axios.post(`${backendURL}/api/petition/sign-petition`, petitionData);
-
       if (response.status === 201) {
         setPetitionData(petitionData);
         setShowPreview(true);
@@ -50,51 +97,177 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-      {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl grid md:grid-cols-2 gap-4">
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold">First Name:</label>
-        <input type="text" className="w-full p-2 border rounded" placeholder="Enter your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">Full Name:</label>
+        <input
+          type="text"
+          className="w-full border-gray-500 p-2 border rounded"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          required
+        />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold">Last Name:</label>
-        <input type="text" className="w-full p-2 border rounded" placeholder="Enter your last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">Phone Number (WhatsApp):</label>
+        <input
+          type="tel"
+          className="w-full p-2 border border-gray-500 rounded"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          required
+        />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold">Email Address:</label>
-        <input type="email" className="w-full p-2 border rounded" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">Email:</label>
+        <input
+          type="email"
+          className="w-full p-2 border border-gray-500 rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold">Phone Number:</label>
-        <input type="tel" className="w-full p-2 border rounded" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">Sex:</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={sex}
+          onChange={(e) => setSex(e.target.value)}
+          required
+        >
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold">State:</label>
-        <select className="w-full p-2 border rounded" value={state} onChange={handleStateChange} required>
-          <option value="">Select your state</option>
-          {Object.keys(statesAndLGAs).map((stateName) => (
-            <option key={stateName} value={stateName}>{stateName}</option>
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">Occupation:</label>
+        <input
+          type="text"
+          className="w-full p-2 border border-gray-500 rounded"
+          value={occupation}
+          onChange={(e) => setOccupation(e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">Age Range:</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={ageRange}
+          onChange={(e) => setAgeRange(e.target.value)}
+          required
+        >
+          <option value="">Select</option>
+          <option value="18-30">18 - 30</option>
+          <option value="31-40">31 - 40</option>
+          <option value="41-60">41 - 60</option>
+          <option value="61 and above">61 and above</option>
+        </select>
+      </div>
+
+      <div className="col-span-2">
+        <label className="block text-gray-700 font-bold">Are you a registered voter?</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={isVoter}
+          onChange={(e) => setIsVoter(e.target.value)}
+          required
+        >
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      {isVoter === "No" && (
+        <div className="col-span-2 transition-all duration-500 ease-in-out">
+          <label className="block text-gray-700 font-bold">Do you want to get a PVC?</label>
+          <select className="w-full p-2 border border-gray-500 rounded" value={wantsPVC} onChange={(e) => setWantsPVC(e.target.value)}>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      )}
+
+
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">State you wish to vote in:</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={state}
+          onChange={handleStateChange}
+          required
+        >
+          <option value="">Select preferred State</option>
+          {Object.keys(statesLGAsAndWards).map((stateName) => (
+            <option key={stateName} value={stateName}>
+              {stateName}
+            </option>
           ))}
         </select>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold">Local Government Area:</label>
-        <select className="w-full p-2 border rounded" value={lga} onChange={(e) => setLga(e.target.value)} disabled={!state} required>
+      <div className="col-span-2 md:col-span-1">
+        <label className="block text-gray-700 font-bold">LGA you wish to vote in:</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={lga}
+          onChange={handleLGAChange}
+          disabled={!state}
+          required
+        >
           <option value="">Select your LGA</option>
           {lgas.map((lgaName) => (
-            <option key={lgaName} value={lgaName}>{lgaName}</option>
+            <option key={lgaName} value={lgaName}>
+              {lgaName}
+            </option>
           ))}
         </select>
       </div>
 
-      <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded w-full" disabled={loading}>
-        {loading ? "Signing..." : "Sign the Petition"}
+      <div className="col-span-2">
+        <label className="block text-gray-700 font-bold">Ward you wish to vote in:</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={ward}
+          onChange={(e) => setWard(e.target.value)}
+          disabled={!lga}
+          required
+        >
+          <option value="">Select your Ward</option>
+          {wards.map((wardName) => (
+            <option key={wardName} value={wardName}>
+              {wardName}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="col-span-2">
+        <label className="block text-gray-700 font-bold">Do you want to be a Citizen Vote Protection Volunteer / Polling Unit Agent?</label>
+        <select
+          className="w-full p-2 border border-gray-500 rounded"
+          value={wantsToVolunteer}
+          onChange={(e) => setWantsToVolunteer(e.target.value)}
+          required
+        >
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      {error && <p className="text-red-600 text-center mb-4 col-span-2">{error}</p>}
+      <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded w-full col-span-2" disabled={loading}>
+        {loading ? "Submitting..." : "Submit"}
       </button>
     </form>
   );

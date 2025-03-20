@@ -3,9 +3,23 @@ import html2canvas from "html2canvas";
 import petitionImage from '../images/Petition.jpg';
 import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
 
+
+const WHATSAPP_LINK = import.meta.env.VITE_WHATSAPP_LINK;
+
+const openWhatsApp = () => {
+  window.open(WHATSAPP_LINK, "_blank");
+};
+
 const PetitionPreview = ({ petitionData, setShowPreview }) => {
   const petitionRef = useRef(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [showThankYou, setShowThankYou] = useState(true);
+
+  // Hide thank-you message after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowThankYou(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Function to capture the image
   const captureImage = async () => {
@@ -29,9 +43,10 @@ const PetitionPreview = ({ petitionData, setShowPreview }) => {
     if (image) {
       const link = document.createElement("a");
       link.href = image;
-      link.download = `FixINEC Petition by ${petitionData.firstName}.png`;
+      link.download = `FixINEC Petition by ${petitionData.fullName}.png`;
       link.click();
     }
+    openWhatsApp();
   };
 
   // Function to share on Twitter (X)
@@ -55,51 +70,61 @@ const PetitionPreview = ({ petitionData, setShowPreview }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center px-2 bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center px-2 bg-black/85">
       <div className="bg-white w-full md:w-md p-6 rounded-lg shadow-lg text-center">
         <h2 className="text-2xl font-bold mb-4">Petition Preview</h2>
 
         {/* Petition Design */}
-        <div ref={petitionRef} className="relative flex flex-col items-center w-full">
-          <img
-            src={petitionImage}
-            alt="Petition"
-            className="w-[100%] h-full object-cover"
-          />
-
-          {/* Overlay User Data */}
-          <div className="absolute top-9 md:top-10 text-[#FA5734] left-7 md:left-7.5 text-[10px] md:text-[12px] font-bold">
-            <p>PETITION BY: {petitionData.firstName.toUpperCase()} {petitionData.lastName.toUpperCase()}, {petitionData.state.toUpperCase()} STATE</p>
+        {showThankYou ? (
+          <div className="text-center p-8">
+            <h2 className="text-2xl font-bold mb-2 text-green-600">Thank You!</h2>
+            <p className="text-lg">Your registration and petition signing was successful.</p>
           </div>
-          <div className="absolute bottom-5 md:bottom-7 text-black text-left left-7 md:left-8 text-[6px] font-bold">
-            <p className="font-bold text-[7px]">Signed</p>
-            <p>{petitionData.firstName} {petitionData.lastName},</p>
-            <p>{petitionData.lga} LGA, {petitionData.state} State.</p>
+        ) : (
+          <div ref={petitionRef} className="relative flex flex-col items-center w-full">
+            <img
+              src={petitionImage}
+              alt="Petition"
+              className="w-[100%] h-full object-cover"
+            />
+
+            {/* Overlay User Data */}
+            <div className="absolute top-9 md:top-10 text-[#FA5734] left-7 md:left-7.5 text-[10px] md:text-[12px] font-bold">
+              <p>PETITION BY: {petitionData.fullName.toUpperCase()}, {petitionData.state.toUpperCase()} STATE</p>
+            </div>
+            <div className="absolute bottom-3 md:bottom-7 text-black text-left left-7 md:left-8 text-[6px] font-bold">
+              <p className="font-bold text-[7px]">Signed</p>
+              <p>{petitionData.fullName},</p>
+              <p>{petitionData.lga} LGA, {petitionData.state} State.</p>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Download & Share Buttons */}
-        <div className="mt-4 flex flex-wrap justify-center gap-4">
-          <button onClick={handleDownload} className="bg-green-600 text-white px-4 py-2 rounded">
-            Download
-          </button>
-          <button onClick={() => setShowPreview(false)} className="bg-red-600 text-white px-4 py-2 rounded">
-            Close
-          </button>
-        </div>
+        {!showThankYou && (
+          /* Download & Share Buttons */
+          <>
+            <div className="mt-4 flex flex-wrap justify-center gap-4">
+              <button onClick={handleDownload} className="bg-green-600 text-white px-4 py-2 rounded">
+                Download
+              </button>
+              <button onClick={() => setShowPreview(false)} className="bg-red-600 text-white px-4 py-2 rounded">
+                Close
+              </button>
+            </div>
 
-        {/* Social Media Share Buttons */}
-        <div className="mt-6 flex justify-center space-x-4">
-          <button onClick={shareOnTwitter} className="text-blue-500 hover:text-blue-700 text-2xl">
-            <FaTwitter />
-          </button>
-          <button onClick={shareOnFacebook} className="text-blue-700 hover:text-blue-900 text-2xl">
-            <FaFacebook />
-          </button>
-          <button onClick={shareOnInstagram} className="text-pink-600 hover:text-pink-800 text-2xl">
-            <FaInstagram />
-          </button>
-        </div>
+            <div className="mt-6 flex justify-center space-x-4">
+              <button onClick={shareOnTwitter} className="text-blue-500 hover:text-blue-700 text-2xl">
+                <FaTwitter />
+              </button>
+              <button onClick={shareOnFacebook} className="text-blue-700 hover:text-blue-900 text-2xl">
+                <FaFacebook />
+              </button>
+              <button onClick={shareOnInstagram} className="text-pink-600 hover:text-pink-800 text-2xl">
+                <FaInstagram />
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
