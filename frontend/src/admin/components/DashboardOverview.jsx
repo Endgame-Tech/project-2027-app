@@ -9,6 +9,7 @@ const DashboardOverview = () => {
     evaluations: 0,
     demands: 0,
   });
+  const [loading, setLoading] = useState(true); // ✅ Added loading state
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -29,6 +30,8 @@ const DashboardOverview = () => {
         });
       } catch (error) {
         console.error("Error fetching total counts:", error);
+      } finally {
+        setLoading(false); // ✅ Set loading to false once data is fetched
       }
     };
 
@@ -52,7 +55,11 @@ const DashboardOverview = () => {
         {Object.entries(totalCounts).map(([key, value]) => (
           <div key={key} className="bg-blue-100 p-4 py-12 rounded-lg text-center shadow">
             <h3 className="text-lg font-semibold capitalize">{key.replace(/([A-Z])/g, " $1").trim()}</h3>
-            <p className="text-3xl font-bold text-blue-600">{value}</p>
+            {loading ? (
+              <div className="h-10 w-16 mx-auto bg-blue-200 animate-pulse rounded"></div>
+            ) : (
+              <p className="text-3xl font-bold text-blue-600">{value}</p>
+            )}
           </div>
         ))}
       </div>
@@ -60,15 +67,19 @@ const DashboardOverview = () => {
       {/* Graph Representation */}
       <div className="bg-white p-4 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-2">Total Engagements Overview</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" fill="#3182CE" barSize={40} />
-          </BarChart>
-        </ResponsiveContainer>
+        {loading ? (
+          <div className="h-[300px] w-full bg-blue-100 animate-pulse rounded"></div>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="count" fill="#3182CE" barSize={40} />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
