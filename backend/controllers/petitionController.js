@@ -2,9 +2,12 @@ import Petition from "../models/petition.model.js";
 
 export const totalPetitionsSigned = async (req, res) => {
   try {
-    const count = await Petition.countDocuments();
-    res.json({ count });
+    const petitions = await Petition.find().sort({ createdAt: -1 }); // Get all petitions, newest first
+    const count = await Petition.countDocuments(); // Count total petitions
+
+    res.json({ count, petitions }); // Return both count and petition data
   } catch (error) {
+    console.error("Error fetching petitions:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

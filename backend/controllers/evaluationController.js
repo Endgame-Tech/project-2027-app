@@ -35,7 +35,8 @@ export const submitEvaluation = async (req, res) => {
 export const getEvaluations = async (req, res) => {
   try {
     const evaluations = await Evaluation.find().sort({ createdAt: -1 }); // Latest first
-    res.status(200).json(evaluations);
+    const count = await Evaluation.countDocuments();
+    res.status(200).json({ evaluations, count });
   } catch (error) {
     console.error("Error fetching evaluations:", error);
     res.status(500).json({ message: "Server error", error: error.message });

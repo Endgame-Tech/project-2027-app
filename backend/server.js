@@ -6,6 +6,7 @@ import petitionRoutes from "./routes/petitionRoutes.js";
 import advocacyEventRoutes from "./routes/advocacyEventRoutes.js";
 import evaluationRoutes from "./routes/evaluationRoutes.js";
 import citizenDemandRoutes from "./routes/citizenDemandRoutes.js";
+import adminRoutes from './routes/admin.js'
 
 // Load environment variables
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api/petition", petitionRoutes);
 app.use("/api/advocacy", advocacyEventRoutes);
 app.use("/api/evaluation", evaluationRoutes);
 app.use("/api/demands", citizenDemandRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Project 2027 Backend is Running...");

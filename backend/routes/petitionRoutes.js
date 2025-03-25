@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 // GET: Total number of signers
-router.get("/count", totalPetitionsSigned);
+router.get("/all", totalPetitionsSigned);
 
 // POST: Sign the petition
 router.post("/sign-petition", signPetition);

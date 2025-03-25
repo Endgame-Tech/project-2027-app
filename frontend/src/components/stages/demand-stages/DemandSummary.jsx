@@ -1,8 +1,62 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import axios from "axios";
 import domtoimage from "dom-to-image";
 
 const DemandSummary = ({ demandData, closeModal }) => {
   const resultRef = useRef(null);
+
+  useEffect(() => {
+    const submitDemand = async () => {
+      const demandDataToSubmit = {
+        personalInfo: {
+          fullName: demandData.fullName,
+          email: demandData.email,
+          phone: demandData.phone,
+          state: demandData.state,
+          lga: demandData.lga,
+          community: demandData.community,
+          ageRange: demandData.ageRange,
+          gender: demandData.gender,
+          occupation: demandData.occupation,
+          otherOccupation: demandData.otherOccupation,
+        },
+        keyIssues: {
+          topIssues: demandData.topIssues,
+          governmentLevel: demandData.governmentLevel,
+          specificActions: demandData.specificActions,
+        },
+        infrastructureNeeds: {
+          neededInfrastructure: demandData.neededInfrastructure,
+          specificProblem: demandData.specificProblem,
+        },
+        governmentAssistance: {
+          assistanceTypes: demandData.assistanceTypes,
+          directImprovement: demandData.directImprovement,
+        },
+        electoralEngagement: {
+          engagedBefore: demandData.engagedBefore,
+          preferredEngagement: demandData.preferredEngagement,
+          futureParticipation: demandData.futureParticipation,
+          additionalComments: demandData.additionalComments,
+        },
+        agreedToPrivacy: demandData.agreedToPrivacy,
+        submittedAt: new Date().toISOString(),
+      }
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/demands/submit`,
+          demandDataToSubmit
+        );
+
+        console.log("Citizen Demands successfully stored:", response.data);
+      } catch (error) {
+        console.error("Error storing demands:", error.response?.data || error.message);
+      }
+    };
+
+    submitDemand();
+
+  }, []);
 
   const handleDownload = () => {
     if (resultRef.current) {

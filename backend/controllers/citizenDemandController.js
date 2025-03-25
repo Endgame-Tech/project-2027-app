@@ -35,7 +35,8 @@ export const submitDemand = async (req, res) => {
 export const getDemands = async (req, res) => {
   try {
     const demands = await CitizenDemand.find().sort({ submittedAt: -1 }); // Latest first
-    res.status(200).json(demands);
+    const count = await CitizenDemand.countDocuments();
+    res.status(200).json({ demands, count });
   } catch (error) {
     console.error("Error fetching demands:", error);
     res.status(500).json({ message: "Server error", error: error.message });

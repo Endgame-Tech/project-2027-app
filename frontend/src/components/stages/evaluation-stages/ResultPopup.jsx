@@ -47,6 +47,7 @@ const ResultPopup = ({ evaluationData, closeModal }) => {
           position: evaluationData.position,
           party: evaluationData.party,
           state: evaluationData.state,
+
         },
         scores: {
           capacity: capacityPercent,
@@ -69,8 +70,8 @@ const ResultPopup = ({ evaluationData, closeModal }) => {
       }
     };
 
-    submitEvaluation(); // ✅ Run when the result popup appears
-  }, []); // ✅ Runs once when the component mounts
+    submitEvaluation();
+  }, []);
 
   // ✅ Handle Image Download
   const handleDownload = () => {
