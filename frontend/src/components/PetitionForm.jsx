@@ -253,7 +253,7 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
       </div>
 
       <div className="col-span-2">
-        <label className="block text-gray-700 font-bold">Do you want to be a Citizen Vote Protection Volunteer / Polling Unit Agent?</label>
+        <label className="block text-gray-700 font-bold">Would you love to protect your vote / Be a Polling Unit Agent?</label>
         <select
           className="w-full p-2 border border-gray-500 rounded"
           value={wantsToVolunteer}
