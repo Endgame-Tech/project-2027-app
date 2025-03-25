@@ -98,7 +98,9 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl grid md:grid-cols-2 gap-4">
-
+      <div className="col-span-2 text-center text-sm text-gray-500">
+        <span className="text-gray-800">Disclaimer:</span> In compliance with data protection and privacy regulations, all phone numbers provided in this petition form will be blurred before submission to the National Assembly. Only necessary information required for the petition's validity will be retained.
+      </div>
 
       <div className="col-span-2 md:col-span-1">
         <label className="block text-gray-700 font-bold">Full Name:</label>
@@ -269,6 +271,7 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
       <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded w-full col-span-2" disabled={loading}>
         {loading ? "Submitting..." : "Submit"}
       </button>
+
     </form>
   );
 };
