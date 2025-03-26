@@ -9,7 +9,7 @@ import formBG from '../images/formBG.png';
 import { TbSquareRoundedNumber1Filled } from "react-icons/tb";
 import { TbSquareRoundedNumber2Filled } from "react-icons/tb";
 import Mandate4Logo from "../images/mandate4LogoWhite.svg";
-import ObidientLogo from "../images/ObidientLogo.svg";
+import ObidientLogo from "../images/obidientLogo.svg";
 
 
 const ObidientPetitionPage = () => {
