@@ -8,7 +8,6 @@ import voteProtectImage from '../images/vote-protect.png';
 import formBG from '../images/formBG.png';
 import { TbSquareRoundedNumber1Filled } from "react-icons/tb";
 import { TbSquareRoundedNumber2Filled } from "react-icons/tb";
-import Mandate4Logo from "../images/mandate4LogoWhite.svg";
 import PeoplesLogo from "../images/peoplesLogo.svg";
 
 
@@ -19,45 +18,47 @@ const PeoplesPetitionPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Sign the Petition | The People's Opposition </title>
+      </Helmet>
       <div
-        className="relative flex flex-col w-full pt-[100px] pb-[100px] text-white p-4"
+        className="relative flex min-h-screen flex-col justify-between w-full py-[100px] text-white p-4"
         style={{ backgroundImage: `url(${heroBG})`, backgroundSize: "cover", backgroundPosition: "center" }}
       >
+        {/* Overlay */}
         <div className="absolute inset-0 bg-black/85"></div>
-        <Helmet>
-          <title>Sign the Petition | The People's Opposition </title>
-        </Helmet>
-        <div className="md:px-[10%] mb-12 flex flex-row items-center z-11">
-          <img src={Mandate4Logo} alt="Mandate4 Logo" className="md:w-[250px] w-[150px]" />
-          <img src={PeoplesLogo} alt="The People's Opposition Logo" className="md:w-[200px] w-[150px]" />
+
+
+
+        {/* Logo */}
+        <div className="md:px-[10%] md:mb-0 mb-[70px] flex  flex-row items-center z-11">
+          <img src={PeoplesLogo} alt="Obidient Movement Logo" className="md:w-[250px] w-[200px]" />
         </div>
+
         <div className="flex justify-center md:px-[10%] gap-10 items-center flex-col">
 
           {/* Become a Volunteer */}
           <div className="relative flex flex-col mb-10 md:flex-row items-center justify-center z-10 text-left">
-            <div className=" w-full flex flex-col">
-              <TbSquareRoundedNumber1Filled className="text-[#EE6238] text-[40px] mb-4" />
-              <h3 className="text-[30px] md:text-[50px] leading-[1] max-w-[500px] font-[600] mb-2">Become a Citizen's Vote Protection Volunteer</h3>
-              <p className="text-[18px] w-[320px] md:w-[520px] mb-4">
-                Join the movement to safeguard democracy by ensuring free, fair, and transparent elections in your community.
-              </p>
-            </div>
-            <div className=" w-full flex py-2 flex-col items-center md:items-left">
-              <img src={voteProtectImage} alt="Petition Image" className="w-[80%] md:w-[100%]" />
-            </div>
-          </div>
+            <div className=" w-full gap-6 flex flex-col">
+              <div>
+                <TbSquareRoundedNumber1Filled className="text-[#EE6238] text-[40px] mb-4" />
+                <h3 className="text-[30px] md:text-[45px] leading-[1] max-w-[500px] font-[600] mb-2">Sign the Petition</h3>
+                <p className="text-[18px] py-2 w-[320px] md:w-[520px] mb-4">
+                  Join millions of Nigerians demanding that the Executive and Legislature adopt the FixINEC FixNigeria Report and the Justice Uwais Report to reform our electoral system
+                </p>
+              </div>
+              <div>
+                <TbSquareRoundedNumber2Filled className="text-[#EE6238] text-[40px] mb-4" />
+                <h3 className="text-[30px] md:text-[45px] leading-[1] max-w-[500px] font-[600] mb-2">Protect your vote / Be a Polling Unit Agent</h3>
+                <p className="text-[18px] w-[320px] md:w-[520px] mb-4">
+                  Join the movement to safeguard democracy by ensuring free, fair, and transparent elections in your community.
+                </p>
+              </div>
 
-          {/* Sign the Petition */}
-          <div className="relative items-center flex flex-col md:flex-row-reverse justify-center z-10 text-left">
-            <div className=" w-full flex py-2 flex-col">
-              <TbSquareRoundedNumber2Filled className="text-[#EE6238] text-[40px] mb-4" />
-              <h3 className="text-[30px] md:text-[50px] leading-[1] max-w-[500px] font-[600] mb-2">Sign the Petition</h3>
-              <p className="text-[18px] py-2 w-[320px] md:w-[520px] mb-4">
-                Join millions of Nigerians demanding that the Executive and Legislature adopt the FixINEC FixNigeria Report and the Justice Uwais Report to reform our electoral system
-              </p>
+
             </div>
-            <div className=" w-full flex py-2 flex-col items-center">
-              <img src={petitionImage} alt="Petition Image" className="w-[80%] md:w-[55%]" />
+            <div className=" w-full hidden md:flex py-2 flex-col items-center md:items-left">
+              <img src={voteProtectImage} alt="Petition Image" className="w-[80%] md:w-[100%]" />
             </div>
           </div>
         </div>
