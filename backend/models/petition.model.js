@@ -6,13 +6,14 @@ const PetitionSchema = new mongoose.Schema({
   email: { type: String, required: true },
   sex: { type: String, required: true },
   occupation: { type: String, required: true },
-  ageRange: {type: String, required: true},
-  isVoter: {type: String, required: true},
+  ageRange: { type: String, required: true },
+  isVoter: { type: String, required: true },
   wantsPVC: { type: String },
   state: { type: String, required: true },
   lga: { type: String, required: true },
   ward: { type: String, required: true },
   wantsToVolunteer: { type: String, required: true },
+  vendor: { type: String, required: true },
   signedAt: { type: Date, default: Date.now },
 });
 

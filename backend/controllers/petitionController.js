@@ -2,7 +2,7 @@ import Petition from "../models/petition.model.js";
 
 export const totalPetitionsSigned = async (req, res) => {
   try {
-    const petitions = await Petition.find().sort({ createdAt: -1 }); // Get all petitions, newest first
+    const petitions = await Petition.find().sort({ signedAt: -1 }); // Get all petitions, newest first
     const count = await Petition.countDocuments(); // Count total petitions
 
     res.json({ count, petitions }); // Return both count and petition data
@@ -26,6 +26,7 @@ export const signPetition = async (req, res) => {
     lga,
     ward,
     wantsToVolunteer,
+    vendor,
   } = req.body;
 
   if (!fullName ||
@@ -38,7 +39,8 @@ export const signPetition = async (req, res) => {
     !state ||
     !lga ||
     !ward ||
-    !wantsToVolunteer) {
+    !wantsToVolunteer ||
+    !vendor) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -62,7 +64,8 @@ export const signPetition = async (req, res) => {
       state,
       lga,
       ward,
-      wantsToVolunteer
+      wantsToVolunteer,
+      vendor,
     });
     await newPetition.save();
     res.status(201).json({ message: "Petition signed successfully!" });

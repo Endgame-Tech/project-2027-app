@@ -6,7 +6,7 @@ function App() {
   const location = useLocation();
 
   // List of admin routes where Navbar should be hidden
-  const adminRoutes = ["/admin/login", "/admin/dashboard"];
+  const adminRoutes = ["/admin/login", "/admin/dashboard", "/fixpolitics", "/thepeoplesopposition", "/obidientmovement"];
 
   return (
     <div className="font-archivo">

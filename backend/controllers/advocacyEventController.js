@@ -32,7 +32,7 @@ export const registerAdvocacyEvent = async (req, res) => {
 
 export const totalAdvocacyEvents = async (req, res) => {
   try {
-    const advocacies = await AdvocacyEvent.find().sort({ createdAt: -1 }); // Get all advocacy events, newest first
+    const advocacies = await AdvocacyEvent.find().sort({ registeredAt: -1 }); // Get all advocacy events, newest first
     const count = await AdvocacyEvent.countDocuments(); // Count total advocacy events
 
     res.json({ count, advocacies }); // Return both count and advocacy events data

@@ -110,6 +110,7 @@ const PetitionData = () => {
         <table className="w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
+              <th className="border p-2">Vendor</th>
               <th className="border p-2">Full Name</th>
               <th className="border p-2">Phone</th>
               <th className="border p-2">State</th>
@@ -124,6 +125,7 @@ const PetitionData = () => {
             {currentPetitions.length > 0 ? (
               currentPetitions.map((petition, index) => (
                 <tr key={index} className="text-center text-sm">
+                  <td className="border p-2">{petition.vendor || "N/A"}</td>
                   <td className="border p-2">{petition.fullName || `${petition.firstName} ${petition.lastName}` || "N/A"}</td>
                   <td className="border p-2">{petition.phone || "N/A"}</td>
                   <td className="border p-2">{petition.state || "N/A"}</td>

@@ -8,22 +8,28 @@ import voteProtectImage from '../images/vote-protect.png';
 import formBG from '../images/formBG.png';
 import { TbSquareRoundedNumber1Filled } from "react-icons/tb";
 import { TbSquareRoundedNumber2Filled } from "react-icons/tb";
+import Mandate4Logo from "../images/mandate4LogoWhite.svg";
+import FixPoliticsLogo from "../images/fixpolitics2.svg";
 
 
-const PetitionPage = () => {
+const FixPoliticsPetitionPage = () => {
   const [petitionData, setPetitionData] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
 
   return (
     <>
       <div
-        className="relative flex flex-col w-full pt-[150px] pb-[100px] text-white p-4"
+        className="relative flex flex-col w-full pt-[100px] pb-[100px] text-white p-4"
         style={{ backgroundImage: `url(${heroBG})`, backgroundSize: "cover", backgroundPosition: "center" }}
       >
         <div className="absolute inset-0 bg-black/85"></div>
         <Helmet>
-          <title>Sign the Petition | Project 2027 </title>
+          <title>Sign the Petition | FixPolitics </title>
         </Helmet>
+        <div className="md:px-[10%] flex mb-12 flex-row items-center z-11">
+          <img src={Mandate4Logo} alt="Mandate4 Logo" className="md:w-[250px] w-[150px]" />
+          <img src={FixPoliticsLogo} alt="FixPolitics Logo" className="md:w-[250px] w-[150px]" />
+        </div>
         <div className="flex justify-center md:px-[10%] gap-10 items-center flex-col">
 
           {/* Become a Volunteer */}
@@ -64,7 +70,7 @@ const PetitionPage = () => {
           <h2 className=" text-center max-w-[600px] text-2xl font-bold">Fill the form to become a Citizen's Vote Protection Volunteer and Sign the Petition to Fix INEC</h2>
         </div>
         <div className="py-10 flex flex-col items-center w-[100%]">
-          <PetitionForm setPetitionData={setPetitionData} setShowPreview={setShowPreview} vendor="Mandate4" />
+          <PetitionForm setPetitionData={setPetitionData} setShowPreview={setShowPreview} vendor="FixPolitics" />
         </div>
 
         {showPreview && petitionData && (
@@ -75,4 +81,4 @@ const PetitionPage = () => {
   );
 };
 
-export default PetitionPage;
+export default FixPoliticsPetitionPage;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import statesLGAsAndWards from "../lib/statesLGAsAndWards.js"; // Ensure correct path
 import axios from "axios";
 
-const PetitionForm = ({ setPetitionData, setShowPreview }) => {
+const PetitionForm = ({ setPetitionData, setShowPreview, vendor }) => {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -59,7 +59,8 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
       !state ||
       !lga ||
       !ward ||
-      !wantsToVolunteer
+      !wantsToVolunteer ||
+      !vendor
     ) {
       setError("Please fill in all required fields.");
       return;
@@ -81,6 +82,7 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
       lga,
       ward,
       wantsToVolunteer,
+      vendor,
     };
 
     try {
@@ -98,6 +100,7 @@ const PetitionForm = ({ setPetitionData, setShowPreview }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl grid md:grid-cols-2 gap-4">
+      <input type="hidden" name="vendor" value={vendor} />
       <div className="col-span-2 text-center text-sm text-gray-500">
         <span className="text-gray-800">Disclaimer:</span> In compliance with data protection and privacy regulations, all phone numbers provided in this petition form will be blurred before submission to the National Assembly. Only necessary information required for the petition's validity will be retained.
       </div>

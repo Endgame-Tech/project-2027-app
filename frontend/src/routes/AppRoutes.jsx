@@ -7,6 +7,9 @@ import DemandsPage from "../pages/DemandsPage";
 import AdminLogin from "../admin/pages/AdminLogin";
 import AdminDashboard from "../admin/pages/AdminDashboard";
 import PrivateRoute from "../admin/middleware/PrivateRoute";
+import FixPoliticsPetitionPage from "../pages/FixPoliticsPetitionPage";
+import ObidientPetitionPage from "../pages/ObidientPetitionPage";
+import PeoplesPetitionPage from "../pages/PeoplesPetitionPage";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +19,9 @@ const AppRoutes = () => {
       <Route path="/advocacy" element={<AdvocacyPage />} />
       <Route path="/evaluation" element={<EvaluationPage />} />
       <Route path="/demands" element={<DemandsPage />} />
+      <Route path="/fixpolitics" element={<FixPoliticsPetitionPage />} />
+      <Route path="/thepeoplesopposition" element={<PeoplesPetitionPage />} />
+      <Route path="/obidientmovement" element={<ObidientPetitionPage />} />
 
       {/* Admin Authentication Routes */}
       <Route path="/admin/login" element={<AdminLogin />} />

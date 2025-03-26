@@ -7,7 +7,7 @@ import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
 const WHATSAPP_LINK = import.meta.env.VITE_WHATSAPP_LINK;
 
 const openWhatsApp = () => {
-  window.open(WHATSAPP_LINK, "_blank");
+  window.open(WHATSAPP_LINK);
 };
 
 const PetitionPreview = ({ petitionData, setShowPreview }) => {
@@ -46,6 +46,11 @@ const PetitionPreview = ({ petitionData, setShowPreview }) => {
       link.download = `FixINEC Petition by ${petitionData.fullName}.png`;
       link.click();
     }
+    openWhatsApp();
+  };
+
+  const handleClose = () => {
+    setShowPreview(false);
     openWhatsApp();
   };
 
@@ -107,7 +112,7 @@ const PetitionPreview = ({ petitionData, setShowPreview }) => {
               <button onClick={handleDownload} className="bg-green-600 text-white px-4 py-2 rounded">
                 Download
               </button>
-              <button onClick={() => setShowPreview(false)} className="bg-red-600 text-white px-4 py-2 rounded">
+              <button onClick={handleClose} className="bg-red-600 text-white px-4 py-2 rounded">
                 Close
               </button>
             </div>
