@@ -104,6 +104,13 @@ const PetitionForm = ({ setPetitionData, setShowPreview, vendor }) => {
       <div className="col-span-2 text-center text-sm text-gray-500">
         <span className="text-gray-800">Disclaimer:</span> In compliance with data protection and privacy regulations, all phone numbers provided in this petition form will be blurred before submission to the National Assembly. Only necessary information required for the petition's validity will be retained.
       </div>
+      <div className="col-span-2 text-center font-bold text-sm text-gray-800">
+        <span className="text-blue-500 underline">
+          <a href='https://drive.google.com/drive/folders/1QUIGdFaeprbducL-BbKTG7ZNsOt9d2nV?usp=drive_link' target="blank">
+            Click here
+          </a>
+        </span> to view the 20+page recommendation and the FixINEC report
+      </div>
 
       <div className="col-span-2 md:col-span-1">
         <label className="block text-gray-700 font-bold">Full Name:</label>
