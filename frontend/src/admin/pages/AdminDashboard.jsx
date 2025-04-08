@@ -18,10 +18,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Mobile Sidebar Toggle - Hide when menu is open */}
-
-
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white p-4 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -29,7 +26,6 @@ const AdminDashboard = () => {
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold">Project 2027 Admin</h2>
-          {/* Close button for mobile */}
           <button className="md:hidden text-white" onClick={() => setIsSidebarOpen(false)}>
             <FiX size={24} />
           </button>
@@ -40,7 +36,7 @@ const AdminDashboard = () => {
               key={item}
               onClick={() => {
                 setActivePage(item);
-                setIsSidebarOpen(false); // Close sidebar on mobile after clicking
+                setIsSidebarOpen(false);
               }}
               className={`p-2 rounded cursor-pointer ${activePage === item ? "bg-blue-500" : "hover:bg-gray-700"
                 }`}
@@ -52,9 +48,9 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-gray-100 p-6">
+      <div className="flex-1 flex flex-col">
         {/* Top Navbar */}
-        <div className="flex justify-between items-center bg-white p-4 rounded shadow">
+        <div className="flex justify-between items-center bg-white p-4 shadow md:rounded-none">
           {!isSidebarOpen && (
             <button
               className="md:hidden z-50 bg-gray-800 text-white p-2 rounded"
@@ -69,16 +65,17 @@ const AdminDashboard = () => {
           </button>
         </div>
 
-        {/* Page Content */}
-        <div className="mt-6">
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto p-6 bg-gray-100">
           {activePage === "Overview" && <DashboardOverview />}
           {activePage === "Petitions" && <PetitionData />}
-          {activePage === "Evaluations" && < EvaluationData />}
+          {activePage === "Evaluations" && <EvaluationData />}
           {activePage === "Events" && <AdvocacyData />}
           {activePage === "Demands" && <DemandData />}
         </div>
       </div>
     </div>
+
   );
 };
 

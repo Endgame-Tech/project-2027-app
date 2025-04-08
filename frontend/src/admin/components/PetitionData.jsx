@@ -8,7 +8,7 @@ const PetitionData = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredPetitions, setFilteredPetitions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const petitionsPerPage = 10;
+  const petitionsPerPage = 20;
 
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -64,6 +64,7 @@ const PetitionData = () => {
   const csvHeaders = [
     { label: "Full Name", key: "fullName" },
     { label: "Phone", key: "phone" },
+    { label: "Email", key: "email" },
     { label: "State", key: "state" },
     { label: "LGA", key: "lga" },
     { label: "Ward", key: "ward" },
@@ -113,12 +114,13 @@ const PetitionData = () => {
               <th className="border p-2">Vendor</th>
               <th className="border p-2">Full Name</th>
               <th className="border p-2">Phone</th>
+              <th className="border p-2">Email</th>
               <th className="border p-2">State</th>
               <th className="border p-2">LGA</th>
               <th className="border p-2">Ward</th>
-              <th className="border p-2">Registered Voter</th>
-              <th className="border p-2">Wants PVC</th>
-              <th className="border p-2">Volunteer Interest</th>
+              <th className="border p-2">Registered<br></br>Voter</th>
+              <th className="border p-2">Wants<br></br> PVC</th>
+              <th className="border p-2">Volunteer<br></br> Interest</th>
             </tr>
           </thead>
           <tbody>
@@ -128,6 +130,7 @@ const PetitionData = () => {
                   <td className="border p-2">{petition.vendor || "N/A"}</td>
                   <td className="border p-2">{petition.fullName || `${petition.firstName} ${petition.lastName}` || "N/A"}</td>
                   <td className="border p-2">{petition.phone || "N/A"}</td>
+                  <td className="border p-2">{petition.email || "N/A"}</td>
                   <td className="border p-2">{petition.state || "N/A"}</td>
                   <td className="border p-2">{petition.lga || "N/A"}</td>
                   <td className="border p-2">{petition.ward || "N/A"}</td>
