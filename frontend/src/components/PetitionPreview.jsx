@@ -75,7 +75,7 @@ const PetitionPreview = ({ petitionData, setShowPreview }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center px-2 bg-black/85">
+    <div className="fixed inset-0 flex items-center z-13 justify-center px-2 bg-black/85">
       <div className="bg-white w-full md:w-md p-6 rounded-lg shadow-lg text-center">
         <h2 className="text-2xl font-bold mb-4">Petition Preview</h2>
 
@@ -94,7 +94,7 @@ const PetitionPreview = ({ petitionData, setShowPreview }) => {
             />
 
             {/* Overlay User Data */}
-            <div className="absolute top-9 md:top-10 text-[#FA5734] left-7 md:left-7.5 text-[10px] md:text-[12px] font-bold">
+            <div className="absolute top-9 md:top-10 text-[#FA5734] text-left left-7 md:left-7.5 text-[7px] lg:text-[11px] md:text-[10px] font-bold">
               <p>PETITION BY: {petitionData.fullName.toUpperCase()}, {petitionData.state.toUpperCase()} STATE</p>
             </div>
             <div className="absolute bottom-3 md:bottom-7 text-black text-left left-7 md:left-8 text-[6px] font-bold">
