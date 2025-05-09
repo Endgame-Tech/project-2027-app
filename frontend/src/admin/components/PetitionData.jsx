@@ -107,7 +107,7 @@ const PetitionData = () => {
       </h3>
 
       {/* Petition Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto hidden sm:block">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
@@ -152,22 +152,105 @@ const PetitionData = () => {
           </tbody>
         </table>
       </div>
+      {/* Petition Cards (Mobile View) */}
+      <div className="block sm:hidden space-y-4">
+        {currentPetitions.length > 0 ? (
+          currentPetitions.map((petition, index) => (
+            <div key={index} className="border p-4 rounded shadow-sm text-sm bg-white">
+              <p><strong>Vendor:</strong> {petition.vendor || "N/A"}</p>
+              <p><strong>Full Name:</strong> {petition.fullName || `${petition.firstName} ${petition.lastName}` || "N/A"}</p>
+              <p><strong>Phone:</strong> {petition.phone || "N/A"}</p>
+              <p><strong>Email:</strong> {petition.email || "N/A"}</p>
+              <p><strong>State:</strong> {petition.state || "N/A"}</p>
+              <p><strong>LGA:</strong> {petition.lga || "N/A"}</p>
+              <p><strong>Ward:</strong> {petition.ward || "N/A"}</p>
+              <p><strong>Registered Voter:</strong> {petition.isVoter === "Yes" ? "Yes" : "No"}</p>
+              <p><strong>Wants PVC:</strong> {petition.wantsPVC === "Yes" ? "Yes" : "No"}</p>
+              <p>
+                <strong>Volunteer Interest:</strong>{" "}
+                <span className={petition.wantsToVolunteer === "Yes" ? "text-green-600 font-bold" : "text-red-600 font-bold"}>
+                  {petition.wantsToVolunteer === "Yes" ? "Yes" : "No"}
+                </span>
+              </p>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No petitions found.</p>
+        )}
+      </div>
+
 
       {/* Pagination Controls */}
       {filteredPetitions.length > petitionsPerPage && (
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-4 text-sm">
+          {/* First & Prev Buttons */}
+          <button
+            onClick={() => paginate(1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            First
+          </button>
+
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Prev
+          </button>
+
+          {/* Previous Page */}
+          {currentPage > 2 && (
+            <button className="px-2 text-gray-500 cursor-default hidden sm:block">...</button>
+          )}
+          {currentPage > 1 && (
             <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`px-3 py-1 mx-1 rounded ${currentPage === index + 1 ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-700"
-                }`}
+              onClick={() => paginate(currentPage - 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
             >
-              {index + 1}
+              {currentPage - 1}
             </button>
-          ))}
+          )}
+
+          {/* Current Page */}
+          <button className="px-4 py-2 min-w-[40px] rounded bg-gray-600 text-white font-semibold">
+            {currentPage}
+          </button>
+
+          {/* Next Page */}
+          {currentPage < totalPages && (
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
+            >
+              {currentPage + 1}
+            </button>
+          )}
+          {currentPage < totalPages - 1 && (
+            <button className="px-2 text-gray-500 cursor-default hidden sm:block">...</button>
+          )}
+
+          {/* Next & Last Buttons */}
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Next
+          </button>
+
+          <button
+            onClick={() => paginate(totalPages)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Last
+          </button>
         </div>
       )}
+
+
     </div>
   );
 };

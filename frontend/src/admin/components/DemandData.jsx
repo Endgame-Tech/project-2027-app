@@ -20,7 +20,6 @@ const DemandData = () => {
           setDemands(response.data.demands);
           setFilteredDemands(response.data.demands);
           setTotalDemands(response.data.count);
-
         } else {
           console.error("API response format incorrect:", response.data);
         }
@@ -62,6 +61,7 @@ const DemandData = () => {
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Project 2027 - Citizen Demands</h2>
       <p className="text-lg font-semibold mb-4">Total Demands: {totalDemands}</p>
+
       <input
         type="text"
         className="w-full p-2 border rounded mb-4"
@@ -69,6 +69,7 @@ const DemandData = () => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
+
       <CSVLink
         data={filteredDemands}
         headers={csvHeaders}
@@ -77,13 +78,16 @@ const DemandData = () => {
       >
         Download CSV
       </CSVLink>
+
       <h3 className="p-2">
-        Showing <span className="font-bold">{indexOfFirstDemand + 1}</span> -
-        <span className="font-bold">{Math.min(indexOfLastDemand, filteredDemands.length)}</span>
+        Showing <span className="font-bold">{indexOfFirstDemand + 1}</span> -{" "}
+        <span className="font-bold">{Math.min(indexOfLastDemand, filteredDemands.length)}</span>{" "}
         of <span className="font-bold">{filteredDemands.length}</span> demands
       </h3>
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300">
+
+      {/* Desktop Table View */}
+      <div className="overflow-x-auto hidden sm:block">
+        <table className="w-full border-collapse border border-gray-300 text-sm">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
               <th className="border p-2">Full Name</th>
@@ -99,7 +103,7 @@ const DemandData = () => {
           <tbody>
             {currentDemands.length > 0 ? (
               currentDemands.map((demand, index) => (
-                <tr key={index} className="text-center text-sm">
+                <tr key={index} className="text-center">
                   <td className="border p-2">{demand.personalInfo.fullName}</td>
                   <td className="border p-2">{demand.personalInfo.email}</td>
                   <td className="border p-2">{demand.personalInfo.phone}</td>
@@ -112,7 +116,7 @@ const DemandData = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center border p-4 text-gray-500">
+                <td colSpan="8" className="text-center border p-4 text-gray-500">
                   No demands found.
                 </td>
               </tr>
@@ -120,17 +124,83 @@ const DemandData = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Mobile Card View */}
+      <div className="block sm:hidden space-y-4">
+        {currentDemands.length > 0 ? (
+          currentDemands.map((demand, index) => (
+            <div key={index} className="border rounded p-4 shadow-sm bg-white text-sm">
+              <p><strong>Full Name:</strong> {demand.personalInfo.fullName}</p>
+              <p><strong>Email:</strong> {demand.personalInfo.email}</p>
+              <p><strong>Phone:</strong> {demand.personalInfo.phone}</p>
+              <p><strong>State:</strong> {demand.personalInfo.state}</p>
+              <p><strong>LGA:</strong> {demand.personalInfo.lga}</p>
+              <p><strong>Key Issues:</strong> {demand.keyIssues.topIssues.join(", ")}</p>
+              <p><strong>Infrastructure Needs:</strong> {demand.infrastructureNeeds.neededInfrastructure.join(", ")}</p>
+              <p><strong>Govt Assistance:</strong> {demand.governmentAssistance.assistanceTypes.join(", ")}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No demands found.</p>
+        )}
+      </div>
+
+      {/* Responsive Pagination */}
       {filteredDemands.length > demandsPerPage && (
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-6 text-sm">
+          <button
+            onClick={() => paginate(1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            First
+          </button>
+
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Prev
+          </button>
+
+          {currentPage > 1 && (
             <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`px-3 py-1 mx-1 rounded ${currentPage === index + 1 ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-700"}`}
+              onClick={() => paginate(currentPage - 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
             >
-              {index + 1}
+              {currentPage - 1}
             </button>
-          ))}
+          )}
+
+          <button className="px-4 py-2 min-w-[40px] rounded bg-gray-600 text-white font-semibold">
+            {currentPage}
+          </button>
+
+          {currentPage < totalPages && (
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
+            >
+              {currentPage + 1}
+            </button>
+          )}
+
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Next
+          </button>
+
+          <button
+            onClick={() => paginate(totalPages)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Last
+          </button>
         </div>
       )}
     </div>

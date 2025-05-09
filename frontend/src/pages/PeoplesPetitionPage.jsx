@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PetitionForm from "../components/PetitionForm";
-import PetitionPreview from "../components/PetitionPreview";
+import TpoPetitionForm from "../components/TpoPetitionForm";
+import TpoPetitionPreview from "../components/TpoPetitionPreview";
 import { Helmet } from "react-helmet-async";
-import petitionImage from '../images/Petition-preview.jpg';
+// import petitionImage from '../images/Petition-preview.jpg';
 import heroBG from '../images/bg.png';
 import voteProtectImage from '../images/vote-protect.png';
 import formBG from '../images/formBG.png';
@@ -41,14 +41,14 @@ const PeoplesPetitionPage = () => {
           <div className="relative flex flex-col mb-10 md:flex-row items-center justify-center z-10 text-left">
             <div className=" w-full gap-6 flex flex-col">
               <div>
-                <TbSquareRoundedNumber1Filled className="text-[#EE6238] text-[40px] mb-4" />
+                <TbSquareRoundedNumber1Filled className="text-[#2BAE72] text-[40px] mb-4" />
                 <h3 className="text-[30px] md:text-[45px] leading-[1] max-w-[500px] font-[600] mb-2">Sign the Petition</h3>
                 <p className="text-[18px] py-2 w-[320px] md:w-[520px] mb-4">
                   Join millions of Nigerians demanding that the Executive and Legislature adopt the FixINEC FixNigeria Report and the Justice Uwais Report to reform our electoral system
                 </p>
               </div>
               <div>
-                <TbSquareRoundedNumber2Filled className="text-[#EE6238] text-[40px] mb-4" />
+                <TbSquareRoundedNumber2Filled className="text-[#2BAE72] text-[40px] mb-4" />
                 <h3 className="text-[30px] md:text-[45px] leading-[1] max-w-[500px] font-[600] mb-2">Protect your vote / Be a Polling Unit Agent</h3>
                 <p className="text-[18px] w-[320px] md:w-[520px] mb-4">
                   Join the movement to safeguard democracy by ensuring free, fair, and transparent elections in your community.
@@ -72,11 +72,11 @@ const PeoplesPetitionPage = () => {
           <h2 className=" text-center max-w-[600px] text-2xl font-bold">Fill the form to become a Citizen's Vote Protection Volunteer and Sign the Petition to Fix INEC</h2>
         </div>
         <div className="py-10 flex flex-col items-center w-[100%]">
-          <PetitionForm setPetitionData={setPetitionData} setShowPreview={setShowPreview} vendor="The People's Opposition" />
+          <TpoPetitionForm setPetitionData={setPetitionData} setShowPreview={setShowPreview} vendor="The People's Opposition" />
         </div>
 
         {showPreview && petitionData && (
-          <PetitionPreview petitionData={petitionData} setShowPreview={setShowPreview} />
+          <TpoPetitionPreview petitionData={petitionData} setShowPreview={setShowPreview} />
         )}
       </div>
     </>

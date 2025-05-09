@@ -91,12 +91,15 @@ const EvaluationData = () => {
       </CSVLink>
 
       <h3 className="p-2">
-        Showing <span className="font-bold">{indexOfFirstEvaluation + 1}</span> -
-        <span className="font-bold"> {Math.min(indexOfLastEvaluation, filteredEvaluations.length)} </span>
+        Showing <span className="font-bold">{indexOfFirstEvaluation + 1}</span> -{" "}
+        <span className="font-bold">
+          {Math.min(indexOfLastEvaluation, filteredEvaluations.length)}
+        </span>{" "}
         of <span className="font-bold">{filteredEvaluations.length}</span>
       </h3>
 
-      <div className="overflow-x-auto">
+      {/* Desktop Table View */}
+      <div className="overflow-x-auto hidden sm:block">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
@@ -119,11 +122,13 @@ const EvaluationData = () => {
                   <td className="border p-2">{evaluation.candidate?.candidateName || "N/A"}</td>
                   <td className="border p-2">{evaluation.candidate?.party || "N/A"}</td>
                   <td className="border p-2">{evaluation.candidate?.state || "N/A"}</td>
-                  <td className="border p-2">{`${evaluation.scores?.capacity}%` || "N/A"}</td>
-                  <td className="border p-2">{`${evaluation.scores?.competence}%` || "N/A"}</td>
-                  <td className="border p-2">{`${evaluation.scores?.character}%` || "N/A"}</td>
-                  <td className="border p-2 font-bold">{`${evaluation.finalScore}%` || "N/A"}</td>
-                  <td className="border p-2">{new Date(evaluation.createdAt).toLocaleDateString() || "N/A"}</td>
+                  <td className="border p-2">{`${evaluation.scores?.capacity ?? 0}%`}</td>
+                  <td className="border p-2">{`${evaluation.scores?.competence ?? 0}%`}</td>
+                  <td className="border p-2">{`${evaluation.scores?.character ?? 0}%`}</td>
+                  <td className="border p-2 font-bold">{`${evaluation.finalScore ?? 0}%`}</td>
+                  <td className="border p-2">
+                    {new Date(evaluation.createdAt).toLocaleDateString() || "N/A"}
+                  </td>
                 </tr>
               ))
             ) : (
@@ -137,17 +142,81 @@ const EvaluationData = () => {
         </table>
       </div>
 
+      {/* Mobile Card View */}
+      <div className="block sm:hidden space-y-4">
+        {currentEvaluations.length > 0 ? (
+          currentEvaluations.map((evaluation, index) => (
+            <div key={index} className="border rounded p-4 shadow-sm text-sm bg-white">
+              <p><strong>Assessor:</strong> {evaluation.assessor?.fullName || "N/A"}</p>
+              <p><strong>Candidate:</strong> {evaluation.candidate?.candidateName || "N/A"}</p>
+              <p><strong>Party:</strong> {evaluation.candidate?.party || "N/A"}</p>
+              <p><strong>State:</strong> {evaluation.candidate?.state || "N/A"}</p>
+              <p><strong>Capacity:</strong> {`${evaluation.scores?.capacity ?? 0}%`}</p>
+              <p><strong>Competence:</strong> {`${evaluation.scores?.competence ?? 0}%`}</p>
+              <p><strong>Character:</strong> {`${evaluation.scores?.character ?? 0}%`}</p>
+              <p><strong>Final Score:</strong> <span className="font-bold">{`${evaluation.finalScore ?? 0}%`}</span></p>
+              <p><strong>Date:</strong> {new Date(evaluation.createdAt).toLocaleDateString() || "N/A"}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No evaluations found.</p>
+        )}
+      </div>
+
+      {/* Pagination */}
       {filteredEvaluations.length > evaluationsPerPage && (
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-6 text-sm">
+          <button
+            onClick={() => paginate(1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            First
+          </button>
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Prev
+          </button>
+
+          {currentPage > 1 && (
             <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`px-3 py-1 mx-1 rounded ${currentPage === index + 1 ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-700"}`}
+              onClick={() => paginate(currentPage - 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
             >
-              {index + 1}
+              {currentPage - 1}
             </button>
-          ))}
+          )}
+
+          <button className="px-4 py-2 min-w-[40px] rounded bg-gray-600 text-white font-semibold">
+            {currentPage}
+          </button>
+
+          {currentPage < totalPages && (
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
+            >
+              {currentPage + 1}
+            </button>
+          )}
+
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Next
+          </button>
+          <button
+            onClick={() => paginate(totalPages)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Last
+          </button>
         </div>
       )}
     </div>

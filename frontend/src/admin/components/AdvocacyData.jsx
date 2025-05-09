@@ -85,12 +85,13 @@ const AdvocacyData = () => {
       </CSVLink>
 
       <h3 className="p-2">
-        Showing <span className="font-bold">{indexOfFirstAdvocacy + 1}</span> -
-        <span className="font-bold"> {Math.min(indexOfLastAdvocacy, filteredAdvocacies.length)} </span>
-        of <span className="font-bold">{filteredAdvocacies.length}</span>
+        Showing <span className="font-bold">{indexOfFirstAdvocacy + 1}</span> -{" "}
+        <span className="font-bold">{Math.min(indexOfLastAdvocacy, filteredAdvocacies.length)}</span> of{" "}
+        <span className="font-bold">{filteredAdvocacies.length}</span>
       </h3>
 
-      <div className="overflow-x-auto">
+      {/* Desktop Table */}
+      <div className="overflow-x-auto hidden sm:block">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
@@ -110,7 +111,7 @@ const AdvocacyData = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center border p-4 text-gray-500">
+                <td colSpan="3" className="text-center border p-4 text-gray-500">
                   No advocacy event registrations found.
                 </td>
               </tr>
@@ -119,17 +120,77 @@ const AdvocacyData = () => {
         </table>
       </div>
 
+      {/* Mobile Card View */}
+      <div className="block sm:hidden space-y-4">
+        {currentAdvocacies.length > 0 ? (
+          currentAdvocacies.map((advocacy, index) => (
+            <div key={index} className="border rounded p-4 shadow-sm text-sm bg-white">
+              <p><strong>Full Name:</strong> {advocacy.fullName || "N/A"}</p>
+              <p><strong>Email:</strong> {advocacy.email || "N/A"}</p>
+              <p><strong>Phone:</strong> {advocacy.phone || "N/A"}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No advocacy event registrations found.</p>
+        )}
+      </div>
+
+      {/* Responsive Pagination */}
       {filteredAdvocacies.length > advocaciesPerPage && (
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-6 text-sm">
+          <button
+            onClick={() => paginate(1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            First
+          </button>
+
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Prev
+          </button>
+
+          {currentPage > 1 && (
             <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`px-3 py-1 mx-1 rounded ${currentPage === index + 1 ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-700"}`}
+              onClick={() => paginate(currentPage - 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
             >
-              {index + 1}
+              {currentPage - 1}
             </button>
-          ))}
+          )}
+
+          <button className="px-4 py-2 min-w-[40px] rounded bg-gray-600 text-white font-semibold">
+            {currentPage}
+          </button>
+
+          {currentPage < totalPages && (
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="px-4 py-2 min-w-[40px] rounded bg-gray-300"
+            >
+              {currentPage + 1}
+            </button>
+          )}
+
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Next
+          </button>
+
+          <button
+            onClick={() => paginate(totalPages)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 min-w-[70px] rounded bg-gray-200 disabled:opacity-50"
+          >
+            Last
+          </button>
         </div>
       )}
     </div>
