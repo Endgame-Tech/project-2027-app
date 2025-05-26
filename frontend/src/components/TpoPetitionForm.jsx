@@ -106,10 +106,10 @@ const PetitionForm = ({ setPetitionData, setShowPreview, vendor }) => {
       </div>
       <div className="col-span-2 text-center font-bold text-sm text-gray-800">
         <span className="text-blue-500 underline">
-          <a href='https://drive.google.com/drive/folders/1QUIGdFaeprbducL-BbKTG7ZNsOt9d2nV?usp=drive_link' target="blank">
+          <a href='https://docs.google.com/document/d/1Sgx-6aM4x8RxqqXfml3F14p48HIsGLizBi9F3fRM2u8/edit?usp=drivesdk' target="blank">
             Click here
           </a>
-        </span> to view the 20+page recommendation and the FixINEC report
+        </span> to view the 20+page TPO constitutional amendments for electoral reform
       </div>
 
       <div className="col-span-2 md:col-span-1">
