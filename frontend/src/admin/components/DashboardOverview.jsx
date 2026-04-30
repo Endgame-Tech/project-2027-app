@@ -8,6 +8,7 @@ const DashboardOverview = () => {
     advocacyEvents: 0,
     evaluations: 0,
     demands: 0,
+    reportDownloads: 0,
   });
   const [loading, setLoading] = useState(true); // ✅ Added loading state
   const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -15,11 +16,14 @@ const DashboardOverview = () => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const [petitionsRes, advocacyRes, evaluationsRes, demandsRes] = await Promise.all([
+        const [petitionsRes, advocacyRes, evaluationsRes, demandsRes, reportRes] = await Promise.all([
           axios.get(`${backendURL}/api/petition/all`),
           axios.get(`${backendURL}/api/advocacy/all`),
           axios.get(`${backendURL}/api/evaluation/all`),
           axios.get(`${backendURL}/api/demands/all`),
+          axios.get(`${backendURL}/api/report/all`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` },
+          }).catch(() => ({ data: { count: 0 } })),
         ]);
 
         setTotalCounts({
@@ -27,6 +31,7 @@ const DashboardOverview = () => {
           advocacyEvents: advocacyRes.data.count,
           evaluations: evaluationsRes.data.count,
           demands: demandsRes.data.count,
+          reportDownloads: reportRes.data.count,
         });
       } catch (error) {
         console.error("Error fetching total counts:", error);
@@ -44,6 +49,7 @@ const DashboardOverview = () => {
     { name: "Advocacy Events", count: totalCounts.advocacyEvents },
     { name: "Evaluations", count: totalCounts.evaluations },
     { name: "Demands", count: totalCounts.demands },
+    { name: "Report Downloads", count: totalCounts.reportDownloads },
   ];
 
   return (

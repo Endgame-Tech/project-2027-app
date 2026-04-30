@@ -6,7 +6,8 @@ import petitionRoutes from "./routes/petitionRoutes.js";
 import advocacyEventRoutes from "./routes/advocacyEventRoutes.js";
 import evaluationRoutes from "./routes/evaluationRoutes.js";
 import citizenDemandRoutes from "./routes/citizenDemandRoutes.js";
-import adminRoutes from './routes/admin.js'
+import adminRoutes from './routes/admin.js';
+import reportDownloadRoutes from './routes/reportDownloadRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -16,11 +17,13 @@ connectDB();
 
 const app = express();
 
-// Middleware
-const FRONTEND_URL = process.env.VITE_FRONTEND_URL || "http://localhost:5173"; // Default for local dev
+// Middleware — multi-origin CORS
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
+  : [process.env.VITE_FRONTEND_URL || "http://localhost:5173"];
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
@@ -31,6 +34,7 @@ app.use("/api/advocacy", advocacyEventRoutes);
 app.use("/api/evaluation", evaluationRoutes);
 app.use("/api/demands", citizenDemandRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/report", reportDownloadRoutes);
 
 app.get("/", (req, res) => {
   res.send("Project 2027 Backend is Running...");

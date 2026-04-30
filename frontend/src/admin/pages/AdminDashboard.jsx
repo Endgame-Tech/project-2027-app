@@ -6,6 +6,7 @@ import AdvocacyData from "../components/AdvocacyData";
 import EvaluationData from "../components/EvaluationData";
 import DemandData from "../components/DemandData";
 import DashboardOverview from "../components/DashboardOverview";
+import ReportDownloadData from "../components/ReportDownloadData";
 
 const AdminDashboard = () => {
   const [activePage, setActivePage] = useState("Overview");
@@ -31,7 +32,7 @@ const AdminDashboard = () => {
           </button>
         </div>
         <ul className="space-y-2">
-          {["Overview", "Petitions", "Evaluations", "Events", "Demands"].map((item) => (
+          {["Overview", "Petitions", "Evaluations", "Events", "Demands", "Report Downloads"].map((item) => (
             <li
               key={item}
               onClick={() => {
@@ -72,6 +73,7 @@ const AdminDashboard = () => {
           {activePage === "Evaluations" && <EvaluationData />}
           {activePage === "Events" && <AdvocacyData />}
           {activePage === "Demands" && <DemandData />}
+          {activePage === "Report Downloads" && <ReportDownloadData />}
         </div>
       </div>
     </div>
